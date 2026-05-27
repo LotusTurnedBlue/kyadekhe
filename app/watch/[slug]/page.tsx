@@ -23,10 +23,11 @@ export default async function WatchPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-black">
+
       <iframe
         src={embedUrl}
         width="100%"
-        height="600"
+        height="550"
         allowFullScreen
         className="h-screen w-full border-0"
       />

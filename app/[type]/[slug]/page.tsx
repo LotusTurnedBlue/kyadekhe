@@ -36,6 +36,7 @@ export default async function ContentDetailPage({
       showBottomNav={false}
       showCategoryNav={false}
     >
+      
       <ContentHero content={content} />
 
       <ContentWhereToWatch content={content} />

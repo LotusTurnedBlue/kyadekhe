@@ -90,7 +90,9 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
           </button>
 
           <div className="absolute left-1/2 -translate-x-1/2">
-            <BrandLogo centered />
+            <div className="flex flex-1 justify-center">
+              <BrandLogo />
+            </div>
           </div>
         </div>
 

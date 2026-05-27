@@ -28,7 +28,9 @@ export default function MobileHeader() {
             <Menu className="h-6 w-6" />
           </button>
 
-          <BrandLogo centered />
+          <div className="flex flex-1 justify-center">
+            <BrandLogo />
+          </div>
 
           <button className="rounded-full bg-gradient-to-br from-orange-400 to-pink-600 p-3">
             <User className="h-3 w-3 text-white" />

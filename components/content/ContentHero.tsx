@@ -1,4 +1,5 @@
 import type { Content } from "@/types/content";
+
 import ContentActions from "@/components/content/ContentActions";
 import ContentMeta from "@/components/content/ContentMeta";
 import BackButton from "@/components/ui/BackButton";
@@ -9,7 +10,7 @@ type ContentHeroProps = {
 };
 
 export default function ContentHero({
-  content,
+  content
 }: ContentHeroProps) {
   return (
     <div className="relative mx-auto max-w-[1200px] px-5 py-8 md:px-10">

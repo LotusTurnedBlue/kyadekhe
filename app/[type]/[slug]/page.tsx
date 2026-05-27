@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 
+import { getTmdbMovieDetails } from "@/lib/tmdb";
+
 import AppShell from "@/components/layout/AppShell";
 import ContentHero from "@/components/content/ContentHero";
 import SimilarContent from "@/components/content/SimilarContent";
@@ -7,6 +9,7 @@ import ContentWhereToWatch from "@/components/content/ContentWhereToWatch";
 import ContentPeopleSection from "@/components/content/ContentPeopleSection";
 import ContentFacts from "@/components/content/ContentFacts";
 import ContentWhyWatch from "@/components/content/ContentWhyWatch";
+import { mergeContentWithTmdb } from "@/lib/contentAdapter";
 
 import {
   getContentBySlug,
@@ -31,33 +34,46 @@ export default async function ContentDetailPage({
     notFound();
   }
 
+  let tmdb = null;
+
+  try {
+    tmdb =
+      content.tmdbId && content.type === "movie"
+        ? await getTmdbMovieDetails(content.tmdbId)
+        : null;
+  } catch (error) {
+    console.error("TMDB fetch failed:", error);
+  }
+
+  const displayContent = mergeContentWithTmdb(content, tmdb);
+    
   return (
     <AppShell
       showBottomNav={false}
       showCategoryNav={false}
     >
       
-      <ContentHero content={content} />
+      <ContentHero content={displayContent} />
 
-      <ContentWhereToWatch content={content} />
-      <ContentWhyWatch content={content} />
-      <ContentFacts content={content} />
+      <ContentWhereToWatch content={displayContent} />
+      <ContentWhyWatch content={displayContent} />
+      <ContentFacts content={displayContent} />
 
       <ContentPeopleSection
         title="Star Cast"
-        people={content.starCast}
+        people={displayContent.starCast}
         type="cast"
       />
 
       <ContentPeopleSection
         title="Directors"
-        people={content.directors}
+        people={displayContent.directors}
         type="crew"
       />
 
       <ContentPeopleSection
         title="Writers"
-        people={content.writers}
+        people={displayContent.writers}
         type="crew"
       />
 

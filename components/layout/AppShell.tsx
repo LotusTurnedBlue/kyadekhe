@@ -2,6 +2,7 @@ import DesktopHeader from "@/components/layout/DesktopHeader";
 import MobileHeader from "@/components/layout/MobileHeader";
 import BottomNav from "@/components/layout/BottomNav";
 import CategoryNav from "@/components/layout/CategoryNav";
+import Footer from "@/components/layout/Footer";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -29,6 +30,8 @@ export default function AppShell({
         </div>
 
         {showBottomNav && <BottomNav />}
+
+        <Footer />
       </div>
     </main>
   );

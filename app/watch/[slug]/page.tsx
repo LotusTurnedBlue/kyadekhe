@@ -23,13 +23,15 @@ export default async function WatchPage({ params }: PageProps) {
 
   return (
     <main className="min-h-dvh bg-black">
-      <div className="h-dvh w-full">
+      <div className="h-[100svh] w-full bg-black">
         <iframe
           src={embedUrl}
           width="100%"
           height="100%"
+          frameBorder="0"
           allowFullScreen
           allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+          referrerPolicy="strict-origin-when-cross-origin"
           className="h-full w-full border-0"
         />
       </div>

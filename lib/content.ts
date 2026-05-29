@@ -166,8 +166,8 @@ export function getVidkingEmbedUrl(content: Content) {
   if (!content.tmdbId) return null;
 
   if (content.type === "movie") {
-    return `https://www.vidking.net/embed/movie/${content.tmdbId}?color=ffa500&autoPlay=false`;
+    return `https://www.vidking.net/embed/movie/${content.tmdbId}?color=ffa500&autoPlay=true`;
   }
 
-  return `https://www.vidking.net/embed/tv/${content.tmdbId}/${content.season ?? 1}/${content.episode ?? 1}?color=ffa500&autoPlay=false&nextEpisode=true&episodeSelector=true`;
+  return `https://www.vidking.net/embed/tv/${content.tmdbId}/${content.season ?? 1}/${content.episode ?? 1}?color=ffa500&autoPlay=true&nextEpisode=true&episodeSelector=true`;
 }

@@ -31,7 +31,7 @@ export default async function WatchPage({ params }: PageProps) {
           frameBorder="0"
           allowFullScreen
           allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-          referrerPolicy="strict-origin-when-cross-origin"
+          referrerPolicy="no-referrer"
           className="h-full w-full border-0"
         />
       </div>

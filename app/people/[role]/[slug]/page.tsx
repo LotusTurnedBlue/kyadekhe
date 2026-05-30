@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import {
   Clapperboard,
-  Film,
   MonitorPlay,
   Sparkles,
   UserRound,
@@ -9,11 +8,9 @@ import {
 
 import AppShell from "@/components/layout/AppShell";
 import ContentPosterCard from "@/components/content/ContentPosterCard";
+import EmptyState from "@/components/ui/EmptyState";
 
-import {
-  getContentByPerson,
-  getPersonBySlug,
-} from "@/lib/content";
+import { getTmdbContentByPerson } from "@/lib/tmdbContent";
 
 type PageProps = {
   params: Promise<{
@@ -62,12 +59,8 @@ export default async function PersonPage({
     notFound();
   }
 
-  const person = getPersonBySlug(role, slug);
-  const content = getContentByPerson(role, slug);
-
-  if (!person) {
-    notFound();
-  }
+  const { personName, personImage, content } =
+    await getTmdbContentByPerson(role, slug);
 
   const formattedRole = formatRole(role);
 
@@ -112,86 +105,76 @@ export default async function PersonPage({
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="flex gap-5">
               <img
-                src={person.image}
-                alt={person.name}
+                src={personImage}
+                alt={personName}
                 className="h-32 w-32 rounded-2xl object-cover md:h-40 md:w-40"
               />
 
               <div>
-          
                 <h1 className="text-4xl font-black text-white md:text-6xl">
-                  {person.name}
+                  {personName}
                 </h1>
 
-                <p className="mt-1 text-sm font-black text-orange-400">{formattedRole}</p>
+                <p className="mt-1 text-sm font-black text-orange-400">
+                  {formattedRole}
+                </p>
 
                 {knownFor && (
                   <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
-                    Known for <span className="font-bold text-zinc-200">{knownFor}</span>.
+                    Known for{" "}
+                    <span className="font-bold text-zinc-200">
+                      {knownFor}
+                    </span>
+                    .
                   </p>
                 )}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {stats.map(({ label, value }) => (
-                <div key={label} className="rounded-2xl border border-white/10 bg-[#030811] px-4 py-3">
-                  <p className="text-[10px] font-bold uppercase text-zinc-500">{label}</p>
-                  <p className="mt-1 text-sm font-black capitalize text-white">{value}</p>
+              {stats.map(({ label, value, icon: Icon }) => (
+                <div
+                  key={label}
+                  className="rounded-2xl border border-white/10 bg-[#030811] px-4 py-3"
+                >
+                  <Icon className="mb-2 h-4 w-4 text-orange-400" />
+                  <p className="text-[10px] font-bold uppercase text-zinc-500">
+                    {label}
+                  </p>
+                  <p className="mt-1 text-sm font-black capitalize text-white">
+                    {value}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {role === "cast" && (
-          <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.04] p-5 md:p-6">
-            <h2 className="text-2xl font-black text-white">
-              Character Credits
-            </h2>
-
-            <div className="mt-5 grid gap-3 md:grid-cols-2">
-              {content.map((item) => {
-                const castCredit = item.starCast.find(
-                  (member) => member.name === person.name
-                );
-
-                return (
-                  <div
-                    key={item.slug}
-                    className="rounded-xl border border-white/10 bg-[#030811] p-4"
-                  >
-                    <p className="text-sm font-black text-white">
-                      {item.title}
-                    </p>
-
-                    {castCredit && (
-                      <p className="mt-1 text-xs text-zinc-400">
-                        as {castCredit.characterName}
-                      </p>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        )}
-
         <section className="mt-10">
           <h2 className="text-2xl font-black text-white">
-            Titles with {person.name}
+            Titles with {personName}
           </h2>
 
           <p className="mt-2 text-sm text-zinc-400">
-            Browse content connected to this{" "}
+            Browse TMDB-powered credits connected to this{" "}
             {formattedRole.toLowerCase()}.
           </p>
 
-          <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-6">
-            {content.map((item) => (
-              <ContentPosterCard key={item.slug} item={item} />
-            ))}
-          </div>
+          {content.length === 0 ? (
+            <EmptyState
+              title="No credits found"
+              description="TMDB did not return matching titles for this person yet."
+            />
+          ) : (
+            <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-6">
+              {content.map((item) => (
+                <ContentPosterCard
+                  key={`${item.slug}-${item.tmdbId ?? item.title}`}
+                  item={item}
+                />
+              ))}
+            </div>
+          )}
         </section>
       </div>
     </AppShell>

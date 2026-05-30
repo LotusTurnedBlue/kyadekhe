@@ -1,5 +1,20 @@
+import {
+  Smile,
+  Brain,
+  Users,
+  Moon,
+  Heart,
+  Gem,
+  Laugh,
+  CloudRain,
+  Swords,
+  Theater,
+  Popcorn,
+  Zap,
+} from "lucide-react";
+
 export const topPickTmdbIds = [
-  "801688", // Kalki 2898 AD
+  "801688",
   "1011985",
   "840430",
 ];
@@ -7,98 +22,86 @@ export const topPickTmdbIds = [
 export const moodCuration = [
   {
     title: "Mind Fresh",
-    tmdbIds: [
-      "1184918",
-      "1239251",
-      "1163258",
-    ],
+    subtitle: "Light, happy and easy watches",
+    icon: Smile,
+    accent: "text-yellow-400",
+    tmdbIds: ["1184918", "1239251", "1163258"],
   },
   {
     title: "Dimaag Hila Dene Wali",
-    tmdbIds: [
-      "801688",
-      "840430",
-      "1096197",
-    ],
+    subtitle: "Twists, mystery and mind games",
+    icon: Brain,
+    accent: "text-pink-400",
+    tmdbIds: ["801688", "840430", "1096197"],
   },
   {
     title: "Family ke Saath",
-    tmdbIds: [
-      "1041613",
-      "1163258",
-      "772515",
-    ],
+    subtitle: "Safe picks for everyone at home",
+    icon: Users,
+    accent: "text-green-400",
+    tmdbIds: ["1041613", "1163258", "772515"],
   },
   {
     title: "Late Night Vibes",
-    tmdbIds: [
-      "1096197",
-      "912649",
-      "1072790",
-    ],
+    subtitle: "Dark, intense and gripping picks",
+    icon: Moon,
+    accent: "text-blue-400",
+    tmdbIds: ["1096197", "912649", "1072790"],
   },
   {
     title: "Breakup Recovery",
-    tmdbIds: [
-      "1127166",
-      "1138194",
-      "1029575",
-    ],
+    subtitle: "Feel it, heal it, move on",
+    icon: Heart,
+    accent: "text-red-400",
+    tmdbIds: ["1127166", "1138194", "1029575"],
   },
   {
     title: "Underrated Gems",
-    tmdbIds: [
-      "840430",
-      "1041613",
-      "1184918",
-    ],
+    subtitle: "Hidden picks you should not miss",
+    icon: Gem,
+    accent: "text-indigo-400",
+    tmdbIds: ["840430", "1041613", "1184918"],
   },
   {
     title: "Dost aaye hue hain",
-    tmdbIds: [
-      "1239251",
-      "1163258",
-      "772515",
-    ],
+    subtitle: "Fun watches for friends night",
+    icon: Popcorn,
+    accent: "text-orange-300",
+    tmdbIds: ["1239251", "1163258", "772515"],
   },
   {
     title: "Sunday wali movie",
-    tmdbIds: [
-      "1041613",
-      "1127166",
-      "1163258",
-    ],
+    subtitle: "Relaxed comfort picks for slow days",
+    icon: CloudRain,
+    accent: "text-purple-300",
+    tmdbIds: ["1041613", "1127166", "1163258"],
   },
   {
     title: "Dimaag mat lagana",
-    tmdbIds: [
-      "1239251",
-      "772515",
-      "1163258",
-    ],
+    subtitle: "Simple, fun and full timepass",
+    icon: Laugh,
+    accent: "text-cyan-300",
+    tmdbIds: ["1239251", "772515", "1163258"],
   },
   {
     title: "Bhai ke saath",
-    tmdbIds: [
-      "801688",
-      "1118031",
-      "572802",
-    ],
+    subtitle: "Mass, action and bro-watch energy",
+    icon: Swords,
+    accent: "text-emerald-300",
+    tmdbIds: ["801688", "1118031", "572802"],
   },
   {
     title: "Pura suspense",
-    tmdbIds: [
-      "1096197",
-      "912649",
-      "840430",
-    ],
+    subtitle: "Edge-of-seat thrillers only",
+    icon: Zap,
+    accent: "text-red-300",
+    tmdbIds: ["1096197", "912649", "840430"],
   },
   {
     title: "Cry karna hai",
-    tmdbIds: [
-      "1127166",
-      "1029575",
-      "1138194",
-    ],
+    subtitle: "Emotional stories that hit hard",
+    icon: Theater,
+    accent: "text-pink-300",
+    tmdbIds: ["1127166", "1029575", "1138194"],
   },
 ];

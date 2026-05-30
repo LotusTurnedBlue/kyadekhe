@@ -3,11 +3,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, User, Clapperboard, Tv, Film, } from "lucide-react";
+import {
+  ChevronDown,
+  User,
+  Clapperboard,
+  Tv,
+  Film,
+} from "lucide-react";
 
 import BrandLogo from "@/components/branding/BrandLogo";
 import SearchPill from "@/components/ui/SearchPill";
-import { createSlug, getPlatforms } from "@/lib/content";
+import { ottPlatforms } from "@/lib/ott-platforms";
 
 const navItems = [
   ["Movies", "/movies", Clapperboard],
@@ -15,19 +21,19 @@ const navItems = [
   ["Web Series", "/web-series", Film],
 ] as const;
 
-const preferredPlatforms = [
-  "NETFLIX",
-  "prime video",
-  "Disney+ hotstar",
+const preferredPlatformSlugs = [
+  "netflix",
+  "prime-video",
+  "disney-hotstar",
 ];
 
-function sortPlatforms(platforms: string[]) {
-  const primary = preferredPlatforms.filter((platform) =>
-    platforms.includes(platform)
+function sortPlatforms() {
+  const primary = ottPlatforms.filter((platform) =>
+    preferredPlatformSlugs.includes(platform.slug)
   );
 
-  const rest = platforms.filter(
-    (platform) => !preferredPlatforms.includes(platform)
+  const rest = ottPlatforms.filter(
+    (platform) => !preferredPlatformSlugs.includes(platform.slug)
   );
 
   return { primary, rest };
@@ -35,12 +41,11 @@ function sortPlatforms(platforms: string[]) {
 
 export default function DesktopHeader() {
   const pathname = usePathname();
-  const [openPlatforms, setOpenPlatforms] = useState(false);
-
-  const platforms = getPlatforms();
+  const [openPlatforms, setOpenPlatforms] =
+    useState(false);
 
   const { primary: primaryPlatforms, rest: morePlatforms } =
-    sortPlatforms(platforms);
+    sortPlatforms();
 
   return (
     <header className="sticky top-0 z-50 hidden border-b border-white/5 bg-[#030811]/85 backdrop-blur-xl md:block">
@@ -49,33 +54,33 @@ export default function DesktopHeader() {
 
         <nav className="flex items-center gap-8 text-sm font-semibold">
           {navItems.map(([label, href, Icon]) => {
-  const active =
-    pathname === href ||
-    pathname.startsWith(`${href}/`);
+            const active =
+              pathname === href ||
+              pathname.startsWith(`${href}/`);
 
-  return (
-    <Link
-      key={href}
-      href={href}
-      className={`flex items-center gap-2 transition ${
-        active
-          ? "text-orange-400"
-          : "text-white hover:text-orange-400"
-      }`}
-    >
-      <Icon className="h-4 w-4" />
-      <span>{label}</span>
-    </Link>
-  );
-})}
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-2 transition ${
+                  active
+                    ? "text-orange-400"
+                    : "text-white hover:text-orange-400"
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                <span>{label}</span>
+              </Link>
+            );
+          })}
 
           {primaryPlatforms.map((platform) => {
-            const href = `/ott-platforms/${createSlug(platform)}`;
+            const href = `/ott-platforms/${platform.slug}`;
             const active = pathname === href;
 
             return (
               <Link
-                key={platform}
+                key={platform.slug}
                 href={href}
                 className={`transition ${
                   active
@@ -83,7 +88,7 @@ export default function DesktopHeader() {
                     : "text-white hover:text-orange-400"
                 }`}
               >
-                {platform}
+                {platform.name}
               </Link>
             );
           })}
@@ -92,13 +97,17 @@ export default function DesktopHeader() {
             <div className="relative">
               <button
                 type="button"
-                onClick={() => setOpenPlatforms((value) => !value)}
+                onClick={() =>
+                  setOpenPlatforms((value) => !value)
+                }
                 className="flex items-center gap-1 text-white transition hover:text-orange-400"
               >
                 and more
                 <ChevronDown
                   className={`h-4 w-4 transition ${
-                    openPlatforms ? "rotate-180 text-orange-400" : ""
+                    openPlatforms
+                      ? "rotate-180 text-orange-400"
+                      : ""
                   }`}
                 />
               </button>
@@ -107,12 +116,12 @@ export default function DesktopHeader() {
                 <div className="absolute left-0 top-full z-[999] mt-4 w-56 rounded-2xl border border-[#162338] bg-[#07101d] p-2 shadow-2xl">
                   {morePlatforms.map((platform) => (
                     <Link
-                      key={platform}
-                      href={`/ott-platforms/${createSlug(platform)}`}
+                      key={platform.slug}
+                      href={`/ott-platforms/${platform.slug}`}
                       onClick={() => setOpenPlatforms(false)}
                       className="block rounded-xl px-3 py-2 text-sm font-semibold text-zinc-300 transition hover:bg-[#0d1728] hover:text-white"
                     >
-                      {platform}
+                      {platform.name}
                     </Link>
                   ))}
                 </div>

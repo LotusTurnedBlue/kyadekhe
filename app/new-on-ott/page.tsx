@@ -1,21 +1,22 @@
-"use client";
-
-import { useMemo, useState } from "react";
-
 import AppShell from "@/components/layout/AppShell";
 import ContentGridPage from "@/components/content/ContentGridPage";
-import ContentTypeTabs from "@/components/content/ContentTypeTabs";
-import { newOtt } from "@/data/homeContent";
-import type { ContentFilterType } from "@/types/content";
 
-export default function NewOnOttPage() {
-  const [type, setType] = useState<ContentFilterType>("all");
+import {
+  getTmdbIndianMovieContent,
+  getTmdbIndianWebSeriesContent,
+  getTmdbIndianTvContent,
+} from "@/lib/tmdbContent";
 
-  const content = useMemo(() => {
-    return type === "all"
-      ? newOtt
-      : newOtt.filter((item) => item.type === type);
-  }, [type]);
+export default async function LatestReleasesPage() {
+  const [movies, webSeries, tvShows] = await Promise.all([
+    getTmdbIndianMovieContent(),
+    getTmdbIndianWebSeriesContent(),
+    getTmdbIndianTvContent(),
+  ]);
+
+  const content = [...movies, ...webSeries, ...tvShows].sort(
+    (a, b) => Number(b.releasedOn) - Number(a.releasedOn)
+  );
 
   return (
     <AppShell>
@@ -23,9 +24,8 @@ export default function NewOnOttPage() {
         title="New on OTT"
         subtitle="Fresh releases across streaming platforms."
         content={content}
-      >
-        <ContentTypeTabs value={type} onChange={setType} />
-      </ContentGridPage>
+        enableTypeFilter
+      />
     </AppShell>
   );
 }

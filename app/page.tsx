@@ -1,5 +1,4 @@
 import { Flame, Clapperboard } from "lucide-react";
-import { moodRows } from "@/data/homeContent";
 
 import AppShell from "@/components/layout/AppShell";
 
@@ -90,11 +89,11 @@ export default async function KyaDekheHomepage() {
         {curatedMoodRows.map((row, index) => (
           <ContentRow
             key={row.title}
-            icon={moodRows[index]?.icon}
+            icon={moodCuration[index]?.icon}
             title={row.title}
-            subtitle={moodRows[index]?.subtitle}
+            subtitle={moodCuration[index]?.subtitle}
             content={row.content}
-            accent={moodRows[index]?.accent}
+            accent={moodCuration[index]?.accent}
           />
         ))}
 

@@ -315,3 +315,70 @@ export function getTmdbImageUrl(path?: string | null, size = "w500") {
 
   return `https://image.tmdb.org/t/p/${size}${path}`;
 }
+
+/* -----------------------------
+   WATCH PROVIDERS
+----------------------------- */
+
+export async function getMoviesByProvider(
+  providerId: number,
+  page = 1
+) {
+  return tmdbFetch<TmdbPaginatedResponse<TmdbMovieListItem>>(
+    `/discover/movie?watch_region=IN&with_watch_providers=${providerId}&page=${page}&sort_by=popularity.desc`
+  );
+}
+
+export async function getTvByProvider(
+  providerId: number,
+  page = 1
+) {
+  return tmdbFetch<TmdbPaginatedResponse<TmdbTvListItem>>(
+    `/discover/tv?watch_region=IN&with_watch_providers=${providerId}&page=${page}&sort_by=popularity.desc`
+  );
+}
+
+export async function getMoviesByGenre(
+  genreId: number,
+  page = 1
+) {
+  return tmdbFetch<TmdbPaginatedResponse<TmdbMovieListItem>>(
+    `/discover/movie?with_genres=${genreId}&watch_region=IN&page=${page}&sort_by=popularity.desc`
+  );
+}
+
+export async function getTvByGenre(
+  genreId: number,
+  page = 1
+) {
+  return tmdbFetch<TmdbPaginatedResponse<TmdbTvListItem>>(
+    `/discover/tv?with_genres=${genreId}&watch_region=IN&page=${page}&sort_by=popularity.desc`
+  );
+}
+
+export type TmdbPersonSearchItem = {
+  id: number;
+  name: string;
+  profile_path: string | null;
+  known_for_department: string;
+};
+
+export type TmdbPersonSearchResponse = {
+  results: TmdbPersonSearchItem[];
+};
+
+export async function searchTmdbPerson(query: string) {
+  return tmdbFetch<TmdbPersonSearchResponse>(
+    `/search/person?query=${encodeURIComponent(query)}&include_adult=false`
+  );
+}
+
+export async function getTmdbPersonCombinedCredits(personId: number) {
+  return tmdbFetch<{
+    cast: (TmdbMovieListItem | TmdbTvListItem)[];
+    crew: ((TmdbMovieListItem | TmdbTvListItem) & {
+      job?: string;
+      department?: string;
+    })[];
+  }>(`/person/${personId}/combined_credits`);
+}

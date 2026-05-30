@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 import BrandLogo from "@/components/branding/BrandLogo";
-import { createSlug, getPlatforms } from "@/lib/content";
+import { ottPlatforms } from "@/lib/ott-platforms";
 
 const menuItems = [
   ["Home", "/", Home],
@@ -25,19 +25,19 @@ const menuItems = [
   ["About", "/about", Info],
 ] as const;
 
-const preferredPlatforms = [
-  "NETFLIX",
-  "prime video",
-  "Disney+ hotstar",
+const preferredPlatformSlugs = [
+  "netflix",
+  "prime-video",
+  "disney-hotstar",
 ];
 
-function sortPlatforms(platforms: string[]) {
-  const primary = preferredPlatforms.filter((platform) =>
-    platforms.includes(platform)
+function sortPlatforms() {
+  const primary = ottPlatforms.filter((platform) =>
+    preferredPlatformSlugs.includes(platform.slug)
   );
 
-  const rest = platforms.filter(
-    (platform) => !preferredPlatforms.includes(platform)
+  const rest = ottPlatforms.filter(
+    (platform) => !preferredPlatformSlugs.includes(platform.slug)
   );
 
   return { primary, rest };
@@ -48,14 +48,16 @@ type MobileMenuProps = {
   onClose: () => void;
 };
 
-export default function MobileMenu({ open, onClose }: MobileMenuProps) {
+export default function MobileMenu({
+  open,
+  onClose,
+}: MobileMenuProps) {
   const [mounted, setMounted] = useState(false);
-  const [openPlatforms, setOpenPlatforms] = useState(false);
-
-  const platforms = getPlatforms();
+  const [openPlatforms, setOpenPlatforms] =
+    useState(false);
 
   const { primary: primaryPlatforms, rest: morePlatforms } =
-    sortPlatforms(platforms);
+    sortPlatforms();
 
   const orderedPlatforms = [
     ...primaryPlatforms,
@@ -120,7 +122,9 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
 
             <button
               type="button"
-              onClick={() => setOpenPlatforms((value) => !value)}
+              onClick={() =>
+                setOpenPlatforms((value) => !value)
+              }
               className="flex items-center justify-between border-b border-[#111c2e] py-5 text-white"
             >
               <span className="flex items-center gap-4">
@@ -133,7 +137,9 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
 
               <ChevronDown
                 className={`h-5 w-5 text-zinc-600 transition ${
-                  openPlatforms ? "rotate-180 text-orange-400" : ""
+                  openPlatforms
+                    ? "rotate-180 text-orange-400"
+                    : ""
                 }`}
               />
             </button>
@@ -142,12 +148,12 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
               <div className="border-b border-[#111c2e] py-3 pl-9">
                 {orderedPlatforms.map((platform) => (
                   <Link
-                    key={platform}
-                    href={`/ott-platforms/${createSlug(platform)}`}
+                    key={platform.slug}
+                    href={`/ott-platforms/${platform.slug}`}
                     onClick={onClose}
                     className="block py-3 text-base font-bold text-zinc-400 transition hover:text-white"
                   >
-                    {platform}
+                    {platform.name}
                   </Link>
                 ))}
               </div>

@@ -4,7 +4,6 @@ import EmptyState from "@/components/ui/EmptyState";
 import Pagination from "@/components/ui/Pagination";
 
 import type { Content } from "@/types/content";
-import { getContentByType } from "@/lib/content";
 import { getTmdbIndianMovieContent } from "@/lib/tmdbContent";
 
 type PageProps = {
@@ -13,29 +12,29 @@ type PageProps = {
   }>;
 };
 
-export default async function MoviesPage({ searchParams }: PageProps) {
+export default async function MoviesPage({
+  searchParams,
+}: PageProps) {
   const { page } = await searchParams;
-  const currentPage = Number(page ?? "1");
+  const currentPage = Math.max(Number(page ?? "1"), 1);
 
-  const localMovies = currentPage === 1 ? getContentByType("movie") : [];
-
-  let tmdbMovies: Content[] = [];
+  let content: Content[] = [];
 
   try {
-    tmdbMovies = await getTmdbIndianMovieContent(currentPage);
+    content = await getTmdbIndianMovieContent(currentPage);
   } catch (error) {
     console.error("TMDB movies fetch failed:", error);
   }
 
-  const content: Content[] = [...localMovies, ...tmdbMovies];
-
   return (
     <AppShell>
       <div className="relative mx-auto max-w-[1540px] px-5 pb-28 pt-6 md:px-10 md:pb-10">
-        <h1 className="text-3xl font-black md:text-5xl">Movies</h1>
+        <h1 className="text-3xl font-black md:text-5xl">
+          Movies
+        </h1>
 
         <p className="mt-2 text-sm text-zinc-400">
-          Browse Indian movies and TMDB-powered discoveries.
+          Browse Indian movies powered by TMDB.
         </p>
 
         {content.length === 0 ? (
@@ -54,7 +53,10 @@ export default async function MoviesPage({ searchParams }: PageProps) {
               ))}
             </div>
 
-            <Pagination currentPage={currentPage} basePath="/movies" />
+            <Pagination
+              currentPage={currentPage}
+              basePath="/movies"
+            />
           </>
         )}
       </div>

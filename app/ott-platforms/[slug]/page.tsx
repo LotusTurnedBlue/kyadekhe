@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
+import type { Content } from "@/types/content";
 
 import AppShell from "@/components/layout/AppShell";
 import PlatformContentGrid from "@/components/ott-platforms/PlatformContentGrid";
 
-import {
-  getContentByPlatform,
-  getPlatformBySlug,
-} from "@/lib/content";
+import { getPlatformBySlug } from "@/lib/ott-platforms";
+import { getTmdbContentByPlatform } from "@/lib/tmdbContent";
 
 type PageProps = {
   params: Promise<{
@@ -25,11 +24,24 @@ export default async function PlatformDetailPage({
     notFound();
   }
 
+  let content: Content[] = [];
+
+  try {
+    content = await getTmdbContentByPlatform(
+      platform.tmdbWatchProviderId
+    );
+  } catch (error) {
+    console.error(
+      "TMDB platform fetch failed:",
+      error
+    );
+  }
+
   return (
     <AppShell>
       <PlatformContentGrid
-        platform={platform}
-        content={getContentByPlatform(platform)}
+        platform={platform.name}
+        content={content}
       />
     </AppShell>
   );

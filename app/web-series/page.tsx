@@ -4,7 +4,6 @@ import EmptyState from "@/components/ui/EmptyState";
 import Pagination from "@/components/ui/Pagination";
 
 import type { Content } from "@/types/content";
-import { getContentByType } from "@/lib/content";
 import { getTmdbIndianWebSeriesContent } from "@/lib/tmdbContent";
 
 type PageProps = {
@@ -13,34 +12,38 @@ type PageProps = {
   }>;
 };
 
-export default async function WebSeriesPage({ searchParams }: PageProps) {
+export default async function WebSeriesPage({
+  searchParams,
+}: PageProps) {
   const { page } = await searchParams;
-  const currentPage = Number(page ?? "1");
+  const currentPage = Math.max(Number(page ?? "1"), 1);
 
-  const localWebSeries =
-    currentPage === 1 ? getContentByType("web-series") : [];
-
-  let tmdbWebSeries: Content[] = [];
+  let content: Content[] = [];
 
   try {
-    tmdbWebSeries = await getTmdbIndianWebSeriesContent(currentPage);
+    content = await getTmdbIndianWebSeriesContent(
+      currentPage
+    );
   } catch (error) {
     console.error("TMDB web series fetch failed:", error);
   }
 
-  const content: Content[] = [...localWebSeries, ...tmdbWebSeries];
-
   return (
     <AppShell>
       <div className="relative mx-auto max-w-[1540px] px-5 pb-28 pt-6 md:px-10 md:pb-10">
-        <h1 className="text-3xl font-black md:text-5xl">Web Series</h1>
+        <h1 className="text-3xl font-black md:text-5xl">
+          Web Series
+        </h1>
 
         <p className="mt-2 text-sm text-zinc-400">
           Discover Indian web series powered by TMDB.
         </p>
 
         {content.length === 0 ? (
-          <EmptyState title="No web series found" description="Try another page." />
+          <EmptyState
+            title="No web series found"
+            description="Try another page."
+          />
         ) : (
           <>
             <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-6">
@@ -52,7 +55,10 @@ export default async function WebSeriesPage({ searchParams }: PageProps) {
               ))}
             </div>
 
-            <Pagination currentPage={currentPage} basePath="/web-series" />
+            <Pagination
+              currentPage={currentPage}
+              basePath="/web-series"
+            />
           </>
         )}
       </div>

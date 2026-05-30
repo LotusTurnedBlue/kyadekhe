@@ -1,21 +1,11 @@
-"use client";
-
-import { useMemo, useState } from "react";
-
 import AppShell from "@/components/layout/AppShell";
 import ContentGridPage from "@/components/content/ContentGridPage";
-import ContentTypeTabs from "@/components/content/ContentTypeTabs";
-import { topPicks } from "@/data/homeContent";
-import type { ContentFilterType } from "@/types/content";
-  
-export default function TopPicksPage() {
-  const [type, setType] = useState<ContentFilterType>("all");
 
-  const content = useMemo(() => {
-    return type === "all"
-      ? topPicks
-      : topPicks.filter((item) => item.type === type);
-  }, [type]);
+import { topPickTmdbIds } from "@/data/homeCuration";
+import { getCuratedMoviesByIds } from "@/lib/tmdbCuration";
+
+export default async function TopPicksPage() {
+  const content = await getCuratedMoviesByIds(topPickTmdbIds);
 
   return (
     <AppShell>
@@ -23,9 +13,8 @@ export default function TopPicksPage() {
         title="Top Picks"
         subtitle="Handpicked titles worth watching."
         content={content}
-      >
-        <ContentTypeTabs value={type} onChange={setType} />
-      </ContentGridPage>
+        enableTypeFilter
+      />
     </AppShell>
   );
 }

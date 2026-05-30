@@ -1,21 +1,22 @@
-"use client";
-
-import { useMemo, useState } from "react";
-
 import AppShell from "@/components/layout/AppShell";
 import ContentGridPage from "@/components/content/ContentGridPage";
-import ContentTypeTabs from "@/components/content/ContentTypeTabs";
-import { allContent } from "@/lib/content";
-import type { ContentFilterType } from "@/types/content";
 
-export default function LatestReleasesPage() {
-  const [type, setType] = useState<ContentFilterType>("all");
+import {
+  getTmdbIndianMovieContent,
+  getTmdbIndianWebSeriesContent,
+  getTmdbIndianTvContent,
+} from "@/lib/tmdbContent";
 
-  const content = useMemo(() => {
-    return type === "all"
-      ? allContent
-      : allContent.filter((item) => item.type === type);
-  }, [type]);
+export default async function LatestReleasesPage() {
+  const [movies, webSeries, tvShows] = await Promise.all([
+    getTmdbIndianMovieContent(),
+    getTmdbIndianWebSeriesContent(),
+    getTmdbIndianTvContent(),
+  ]);
+
+  const content = [...movies, ...webSeries, ...tvShows].sort(
+    (a, b) => Number(b.releasedOn) - Number(a.releasedOn)
+  );
 
   return (
     <AppShell>
@@ -23,9 +24,8 @@ export default function LatestReleasesPage() {
         title="Latest Releases"
         subtitle="Recently added titles on KyaDekhe?"
         content={content}
-      >
-        <ContentTypeTabs value={type} onChange={setType} />
-      </ContentGridPage>
+        enableTypeFilter
+      />
     </AppShell>
   );
 }

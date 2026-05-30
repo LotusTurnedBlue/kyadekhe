@@ -6,16 +6,17 @@ type ContentActionsProps = {
   slug: string;
   watchOnKyaDekhe?: boolean;
   kyadekheWatchUrl?: string;
+  trailerUrl?: string;
 };
 
 export default function ContentActions({
   slug,
   watchOnKyaDekhe,
   kyadekheWatchUrl,
+  trailerUrl,
 }: ContentActionsProps) {
   return (
     <div className="mt-8 flex flex-wrap gap-3">
-      {/* Watch on KyaDekhe? and Watch Trailer */}
       {watchOnKyaDekhe && kyadekheWatchUrl ? (
         <Link
           href={kyadekheWatchUrl}
@@ -25,13 +26,16 @@ export default function ContentActions({
           Watch on KyaDekhe?
         </Link>
       ) : (
-        <button className="group inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-black text-black transition hover:scale-[1.02] hover:bg-zinc-200">
+        <Link
+          href={trailerUrl || "#WhereToWatch"}
+          target={trailerUrl ? "_blank" : undefined}
+          className="group inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-black text-black transition hover:scale-[1.02] hover:bg-zinc-200"
+        >
           <Play className="h-5 w-5 fill-black transition group-hover:scale-110" />
           Watch Trailer
-        </button>
+        </Link>
       )}
 
-      {/* Platform / Future Deep Link */}
       <Link
         href="#WhereToWatch"
         className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-3 text-sm font-black text-white transition hover:border-orange-500/30 hover:bg-white/[0.09]"
@@ -40,7 +44,6 @@ export default function ContentActions({
         Where to Watch
       </Link>
 
-      {/* Existing logic */}
       <WatchlistButton slug={slug} />
     </div>
   );

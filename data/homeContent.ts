@@ -15,8 +15,7 @@ import {
 
 import type { Content, MoodRow } from "@/types/content";
 
-const placeholderPersonImage =
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop";
+const placeholderPersonImage = "/fallbackPersonImage.png";
 
 export const contentPool: Content[] = [
   {
@@ -70,8 +69,8 @@ export const contentPool: Content[] = [
 
     watchOnKyaDekhe: true,
     kyadekheWatchUrl: "/watch/kalki-2898-ad",
-    tmdbId: "801688-2898",
-    vidkingUrl: "https://www.vidking.net/embed/movie/801688-2898",
+    tmdbId: "801688",
+    vidkingId: "801688-2898",
   },
   {
     slug: "mirzapur",
@@ -129,12 +128,6 @@ export const contentPool: Content[] = [
         image: placeholderPersonImage,
       },
     ],
-
-    tmdbId: "",
-    season: 1,
-    episode: 8,
-    watchOnKyaDekhe: true,
-    kyadekheWatchUrl: "/watch/",
   },
   {
     slug: "12th-fail",

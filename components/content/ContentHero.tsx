@@ -56,6 +56,7 @@ export default function ContentHero({
             slug={content.slug}
             watchOnKyaDekhe={content.watchOnKyaDekhe}
             kyadekheWatchUrl={content.kyadekheWatchUrl}
+            trailerUrl={content.trailerUrl}
           />
         </div>
       </div>

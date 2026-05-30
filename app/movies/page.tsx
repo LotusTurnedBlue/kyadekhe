@@ -1,10 +1,33 @@
 import AppShell from "@/components/layout/AppShell";
 import ContentPosterCard from "@/components/content/ContentPosterCard";
 import EmptyState from "@/components/ui/EmptyState";
-import { getContentByType } from "@/lib/content";
+import Pagination from "@/components/ui/Pagination";
 
-export default function MoviesPage() {
-  const content = getContentByType("movie");
+import type { Content } from "@/types/content";
+import { getContentByType } from "@/lib/content";
+import { getTmdbIndianMovieContent } from "@/lib/tmdbContent";
+
+type PageProps = {
+  searchParams: Promise<{
+    page?: string;
+  }>;
+};
+
+export default async function MoviesPage({ searchParams }: PageProps) {
+  const { page } = await searchParams;
+  const currentPage = Number(page ?? "1");
+
+  const localMovies = currentPage === 1 ? getContentByType("movie") : [];
+
+  let tmdbMovies: Content[] = [];
+
+  try {
+    tmdbMovies = await getTmdbIndianMovieContent(currentPage);
+  } catch (error) {
+    console.error("TMDB movies fetch failed:", error);
+  }
+
+  const content: Content[] = [...localMovies, ...tmdbMovies];
 
   return (
     <AppShell>
@@ -12,20 +35,27 @@ export default function MoviesPage() {
         <h1 className="text-3xl font-black md:text-5xl">Movies</h1>
 
         <p className="mt-2 text-sm text-zinc-400">
-          Browse all movies available on KyaDekhe?
+          Browse Indian movies and TMDB-powered discoveries.
         </p>
 
         {content.length === 0 ? (
           <EmptyState
             title="No movies found"
-            description="Movies added to KyaDekhe will appear here."
+            description="Try another page."
           />
         ) : (
-          <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-6">
-            {content.map((item) => (
-              <ContentPosterCard key={item.slug} item={item} />
-            ))}
-          </div>
+          <>
+            <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-6">
+              {content.map((item) => (
+                <ContentPosterCard
+                  key={`${item.slug}-${item.tmdbId ?? item.title}`}
+                  item={item}
+                />
+              ))}
+            </div>
+
+            <Pagination currentPage={currentPage} basePath="/movies" />
+          </>
         )}
       </div>
     </AppShell>

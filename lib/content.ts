@@ -163,11 +163,13 @@ export function getPersonBySlug(
 }
 
 export function getVidkingEmbedUrl(content: Content) {
-  if (!content.tmdbId) return null;
+  const providerId = content.vidkingId || content.tmdbId;
+
+  if (!providerId) return null;
 
   if (content.type === "movie") {
-    return `https://www.vidking.net/embed/movie/${content.tmdbId}?color=ffa500&autoPlay=true`;
+    return `https://www.vidking.net/embed/movie/${providerId}?color=ffa500&autoPlay=true`;
   }
 
-  return `https://www.vidking.net/embed/tv/${content.tmdbId}/${content.season ?? 1}/${content.episode ?? 1}?color=ffa500&autoPlay=true&nextEpisode=true&episodeSelector=true`;
+  return `https://www.vidking.net/embed/tv/${providerId}/${content.season ?? 1}/${content.episode ?? 1}?color=ffa500&autoPlay=true&nextEpisode=true&episodeSelector=true`;
 }

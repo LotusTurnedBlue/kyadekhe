@@ -15,6 +15,12 @@ export type CrewMember = {
   image: string;
 };
 
+export type WatchProvider = {
+  name: string;
+  logo: string | null;
+  type: "stream" | "rent" | "buy";
+};
+
 export type Content = {
   slug: string;
   title: string;
@@ -40,9 +46,13 @@ export type Content = {
   trailerUrl?: string;
 
   tmdbId?: string;
+  vidkingId?: string;
   season?: number;
   episode?: number;
   vidkingUrl?: string;
+
+  watchProviders?: WatchProvider[];
+  providerLink?: string;
 };
 
 export type MoodRow = {

@@ -66,8 +66,8 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="mt-14 w-full border-t border-white/10 bg-[#02040a]">
-      <div className="mx-auto max-w-[1400px] px-5 py-8 md:px-10 md:py-12">
+    <footer className="mt-14 w-full border-white/10 bg-[#02040a]">
+      <div className="mx-auto max-w-[1400px] pb-28 md:px-10 md:pb-10">
         <div className="overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-br from-white/[0.075] via-white/[0.035] to-transparent p-5 shadow-2xl md:p-8">
           <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-center">
             <div>
@@ -114,7 +114,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="mt-9 grid gap-8 border-t border-white/10 pt-8 md:grid-cols-3">
+          <div className="mt-8 grid gap-8 border-t border-white/10 pt-8 md:grid-cols-3">
             {footerGroups.map((group) => (
               <div key={group.title}>
                 <h3 className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-orange-400">
@@ -137,7 +137,7 @@ export default function Footer() {
             ))}
           </div>
 
-          <div className="mt-9 border-t border-white/10 pt-6">
+          <div className="mt-8 border-t border-white/10 pt-8">
             <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
               <div className="flex items-start gap-3">
                 <div className="mt-0.5 hidden h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white/[0.06] text-zinc-400 sm:flex">

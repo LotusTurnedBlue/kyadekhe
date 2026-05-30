@@ -1,6 +1,7 @@
 import { Play, ExternalLink } from "lucide-react";
-import WatchlistButton from "@/components/content/WatchlistButton";
 import Link from "next/link";
+
+import WatchlistButton from "@/components/content/WatchlistButton";
 
 type ContentActionsProps = {
   slug: string;
@@ -17,7 +18,8 @@ export default function ContentActions({
 }: ContentActionsProps) {
   return (
     <div className="mt-8 flex flex-wrap gap-3">
-      {watchOnKyaDekhe && kyadekheWatchUrl ? (
+
+      {kyadekheWatchUrl && (
         <Link
           href={kyadekheWatchUrl}
           className="group inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-black text-black transition hover:scale-[1.02] hover:bg-zinc-200"
@@ -25,13 +27,15 @@ export default function ContentActions({
           <Play className="h-5 w-5 fill-black transition group-hover:scale-110" />
           Watch on KyaDekhe?
         </Link>
-      ) : (
+      )}
+
+      {trailerUrl && (
         <Link
-          href={trailerUrl || "#WhereToWatch"}
-          target={trailerUrl ? "_blank" : undefined}
-          className="group inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-black text-black transition hover:scale-[1.02] hover:bg-zinc-200"
+          href={trailerUrl}
+          target="_blank"
+          className="group inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-3 text-sm font-black text-white transition hover:border-orange-500/30 hover:bg-white/[0.09]"
         >
-          <Play className="h-5 w-5 fill-black transition group-hover:scale-110" />
+          <Play className="h-5 w-5 transition group-hover:scale-110" />
           Watch Trailer
         </Link>
       )}

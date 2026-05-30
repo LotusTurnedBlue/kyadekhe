@@ -1,3 +1,5 @@
+export const revalidate = 86400;
+
 import AppShell from "@/components/layout/AppShell";
 import ContentGridPage from "@/components/content/ContentGridPage";
 

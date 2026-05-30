@@ -1,20 +1,47 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import AppShell from "@/components/layout/AppShell";
 import SearchBar from "@/components/search/SearchBar";
 import ContentSearchResults from "@/components/search/ContentSearchResults";
+import EmptyState from "@/components/ui/EmptyState";
 
-import { allContent, searchContent } from "@/lib/content";
+import type { Content } from "@/types/content";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
+  const [content, setContent] = useState<Content[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const filteredContent = useMemo(() => {
-    if (!query.trim()) return allContent;
+  useEffect(() => {
+    const q = query.trim();
 
-    return searchContent(query);
+    if (!q) {
+      setContent([]);
+      setLoading(false);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        setLoading(true);
+
+        const response = await fetch(
+          `/api/search?q=${encodeURIComponent(q)}`
+        );
+
+        const data = await response.json();
+        setContent(data);
+      } catch (error) {
+        console.error("Search failed:", error);
+        setContent([]);
+      } finally {
+        setLoading(false);
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
   }, [query]);
 
   return (
@@ -24,6 +51,10 @@ export default function SearchPage() {
           Search KyaDekhe?
         </h1>
 
+        <p className="mt-2 text-sm text-zinc-400">
+          Search TMDB-powered movies, TV shows and web series.
+        </p>
+
         <div className="mt-6">
           <SearchBar
             value={query}
@@ -31,7 +62,21 @@ export default function SearchPage() {
           />
         </div>
 
-        <ContentSearchResults content={filteredContent} />
+        {query.trim() ? (
+          loading ? (
+            <EmptyState
+              title="Searching..."
+              description="Finding TMDB results for you."
+            />
+          ) : (
+            <ContentSearchResults content={content} />
+          )
+        ) : (
+          <EmptyState
+            title="Start searching"
+            description='Try "Kalki", "Netflix", "Thriller" or "Action".'
+          />
+        )}
       </div>
     </AppShell>
   );

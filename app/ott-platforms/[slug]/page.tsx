@@ -1,3 +1,5 @@
+export const revalidate = 86400;
+
 import { notFound } from "next/navigation";
 import type { Content } from "@/types/content";
 

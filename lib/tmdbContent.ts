@@ -9,6 +9,8 @@ import {
   getTvByProvider,
   searchTmdbPerson,
   getTmdbPersonCombinedCredits,
+  getSimilarMovies,
+  getSimilarTv,
 } from "@/lib/tmdb";
 
 import type { Content } from "@/types/content";
@@ -190,4 +192,36 @@ export async function getTmdbContentByPerson(
       : "/fallbackPersonImage.png",
     content,
   };
+}
+
+export async function getTmdbSimilarContent(
+  tmdbId: string,
+  type: "movie" | "tv-show" | "web-series"
+): Promise<Content[]> {
+  try {
+    if (type === "movie") {
+      const data = await getSimilarMovies(tmdbId);
+
+      return data.results
+        .filter((item) => item.poster_path)
+        .slice(0, 12)
+        .map(tmdbMovieToContent);
+    }
+
+    const data = await getSimilarTv(tmdbId);
+
+    return data.results
+      .filter((item) => item.poster_path)
+      .slice(0, 12)
+      .map((item) =>
+        tmdbTvToContent(item, type)
+      );
+  } catch (error) {
+    console.error(
+      "TMDB similar fetch failed:",
+      error
+    );
+
+    return [];
+  }
 }

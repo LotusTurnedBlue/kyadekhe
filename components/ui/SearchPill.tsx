@@ -1,18 +1,46 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, X } from "lucide-react";
 
-import { searchContent } from "@/lib/content";
 import ContentSearchResults from "@/components/search/ContentSearchResults";
 import EmptyState from "@/components/ui/EmptyState";
+import type { Content } from "@/types/content";
 
 export default function SearchPill() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [content, setContent] = useState<Content[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const filteredContent = useMemo(() => {
-    return searchContent(query);
+  useEffect(() => {
+    const q = query.trim();
+
+    if (!q) {
+      setContent([]);
+      setLoading(false);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        setLoading(true);
+
+        const response = await fetch(
+          `/api/search?q=${encodeURIComponent(q)}`
+        );
+
+        const data = await response.json();
+        setContent(data);
+      } catch (error) {
+        console.error("Search failed:", error);
+        setContent([]);
+      } finally {
+        setLoading(false);
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
   }, [query]);
 
   return (
@@ -34,14 +62,17 @@ export default function SearchPill() {
                   <h2 className="text-xl font-black text-white md:text-2xl">
                     Search KyaDekhe?
                   </h2>
+
                   <p className="mt-1 text-sm text-zinc-400">
-                    Find movies, tv shows, web series...                  </p>
+                    Find movies, tv shows, web series...
+                  </p>
                 </div>
 
                 <button
                   onClick={() => {
                     setOpen(false);
                     setQuery("");
+                    setContent([]);
                   }}
                   className="shrink-0 rounded-full border border-white/10 bg-white/[0.06] p-3 text-white transition hover:bg-white/[0.12]"
                 >
@@ -57,13 +88,19 @@ export default function SearchPill() {
                   placeholder="Search actors, movies, tv shows, web series, genre..."
                   className="w-full rounded-2xl border border-white/10 bg-[#030811] px-4 py-4 text-base font-medium text-white outline-none transition placeholder:text-zinc-500 focus:border-orange-500/60 focus:bg-[#030811]"
                 />
-                
               </div>
             </div>
 
             <div className="mt-5 max-h-[58vh] overflow-y-auto rounded-[24px] border border-white/10 bg-[#030811] p-4 md:p-5">
               {query.trim() ? (
-                <ContentSearchResults content={filteredContent} />
+                loading ? (
+                  <EmptyState
+                    title="Searching..."
+                    description="Finding TMDB results for you."
+                  />
+                ) : (
+                  <ContentSearchResults content={content} />
+                )
               ) : (
                 <EmptyState
                   title="Start typing to search"

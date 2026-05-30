@@ -1,6 +1,6 @@
-import { notFound } from "next/navigation";
+export const revalidate = 86400;
 
-import type { Content } from "@/types/content";
+import { notFound } from "next/navigation";
 
 import {
   getTmdbMovieDetails,
@@ -14,10 +14,7 @@ import {
   getTmdbIdFromSlug,
 } from "@/lib/contentAdapter";
 
-import {
-  getContentBySlug,
-  getSimilarContent,
-} from "@/lib/content";
+import { getTmdbSimilarContent } from "@/lib/tmdbContent";
 
 import AppShell from "@/components/layout/AppShell";
 import ContentHero from "@/components/content/ContentHero";
@@ -39,13 +36,17 @@ export default async function ContentDetailPage({
 }: PageProps) {
   const { type, slug } = await params;
 
-  let content: Content | undefined | null = getContentBySlug(slug);
-  let tmdb = null;
-
   const tmdbIdFromSlug = getTmdbIdFromSlug(slug);
 
-  if (!content && tmdbIdFromSlug && type === "movie") {
-    try {
+  if (!tmdbIdFromSlug) {
+    notFound();
+  }
+
+  let tmdb = null;
+  let content = null;
+
+  try {
+    if (type === "movie") {
       tmdb = await getTmdbMovieDetails(tmdbIdFromSlug);
 
       content = tmdbMovieToContent({
@@ -61,17 +62,9 @@ export default async function ContentDetailPage({
         original_language: tmdb.original_language,
         origin_country: tmdb.origin_country,
       });
-    } catch (error) {
-      console.error("TMDB movie detail fallback failed:", error);
     }
-  }
 
-  if (
-    !content &&
-    tmdbIdFromSlug &&
-    (type === "tv-show" || type === "web-series")
-  ) {
-    try {
+    if (type === "tv-show" || type === "web-series") {
       tmdb = await getTmdbTvDetails(tmdbIdFromSlug);
 
       content = tmdbTvToContent(
@@ -90,30 +83,13 @@ export default async function ContentDetailPage({
         },
         type
       );
-    } catch (error) {
-      console.error("TMDB TV/detail fallback failed:", error);
     }
+  } catch (error) {
+    console.error("TMDB detail fetch failed:", error);
   }
 
-  if (!content || content.type !== type) {
+  if (!content || !tmdb || content.type !== type) {
     notFound();
-  }
-
-  if (!tmdb) {
-    try {
-      if (content.tmdbId && content.type === "movie") {
-        tmdb = await getTmdbMovieDetails(content.tmdbId);
-      }
-
-      if (
-        content.tmdbId &&
-        (content.type === "tv-show" || content.type === "web-series")
-      ) {
-        tmdb = await getTmdbTvDetails(content.tmdbId);
-      }
-    } catch (error) {
-      console.error("TMDB fetch failed:", error);
-    }
   }
 
   const displayContent = mergeContentWithTmdb(content, tmdb);
@@ -147,7 +123,12 @@ export default async function ContentDetailPage({
         type="crew"
       />
 
-      <SimilarContent content={getSimilarContent(slug)} />
+      <SimilarContent
+        content={await getTmdbSimilarContent(
+          displayContent.tmdbId!,
+          displayContent.type
+        )}
+      />
     </AppShell>
   );
 }

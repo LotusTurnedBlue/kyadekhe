@@ -4,22 +4,48 @@ import { useEffect, useState } from "react";
 
 import AppShell from "@/components/layout/AppShell";
 import ContentPosterCard from "@/components/content/ContentPosterCard";
-import { allContent } from "@/lib/content";
 import EmptyState from "@/components/ui/EmptyState";
 
+import type { Content } from "@/types/content";
+
 export default function WatchlistPage() {
-  const [savedSlugs, setSavedSlugs] = useState<string[]>([]);
+  const [savedContent, setSavedContent] = useState<Content[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const saved = JSON.parse(
-      localStorage.getItem("watchlist") || "[]"
-    );
-    setSavedSlugs(saved);
-  }, []);
+    async function loadWatchlist() {
+      try {
+        const savedSlugs = JSON.parse(
+          localStorage.getItem("watchlist") || "[]"
+        );
 
-  const savedContent = allContent.filter((item) =>
-    savedSlugs.includes(item.slug)
-  );
+        if (!Array.isArray(savedSlugs) || savedSlugs.length === 0) {
+          setSavedContent([]);
+          return;
+        }
+
+        const response = await fetch("/api/watchlist", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            slugs: savedSlugs,
+          }),
+        });
+
+        const content = await response.json();
+        setSavedContent(content);
+      } catch (error) {
+        console.error("Watchlist fetch failed:", error);
+        setSavedContent([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadWatchlist();
+  }, []);
 
   return (
     <AppShell>
@@ -28,7 +54,12 @@ export default function WatchlistPage() {
           My Watchlist
         </h1>
 
-        {savedContent.length === 0 ? (
+        {loading ? (
+          <EmptyState
+            title="Loading watchlist"
+            description="Fetching your saved titles."
+          />
+        ) : savedContent.length === 0 ? (
           <EmptyState
             title="Nothing in watchlist"
             description="Save movies, shows or web series and they’ll appear here."
@@ -36,7 +67,10 @@ export default function WatchlistPage() {
         ) : (
           <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-6">
             {savedContent.map((item) => (
-              <ContentPosterCard key={item.slug} item={item} />
+              <ContentPosterCard
+                key={`${item.slug}-${item.tmdbId ?? item.title}`}
+                item={item}
+              />
             ))}
           </div>
         )}

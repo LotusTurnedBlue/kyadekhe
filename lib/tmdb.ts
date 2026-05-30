@@ -382,3 +382,33 @@ export async function getTmdbPersonCombinedCredits(personId: number) {
     })[];
   }>(`/person/${personId}/combined_credits`);
 }
+
+export async function searchTmdbMulti(query: string) {
+  return tmdbFetch<{
+    results: any[];
+  }>(
+    `/search/multi?query=${encodeURIComponent(query)}&include_adult=false`
+  );
+}
+
+export async function getSimilarMovies(id: string) {
+  return tmdbFetch<{
+    results: TmdbMovieListItem[];
+  }>(`/movie/${id}/similar`);
+}
+
+export async function getSimilarTv(id: string) {
+  return tmdbFetch<{
+    results: TmdbTvListItem[];
+  }>(`/tv/${id}/similar`);
+}
+
+export async function searchMultiTmdb(
+  query: string
+) {
+  return tmdbFetch(
+    `/search/multi?query=${encodeURIComponent(
+      query
+    )}`
+  );
+}

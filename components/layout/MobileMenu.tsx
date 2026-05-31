@@ -22,7 +22,6 @@ const menuItems = [
   ["Movies", "/movies", Clapperboard],
   ["TV Shows", "/tv-shows", Tv],
   ["Web Series", "/web-series", Film],
-  ["About", "/about", Info],
 ] as const;
 
 const preferredPlatformSlugs = [
@@ -158,13 +157,24 @@ export default function MobileMenu({
                 ))}
               </div>
             )}
-          </nav>
-        </div>
 
-        <div className="border-t border-[#111c2e] px-6 py-5 text-center">
-          <p className="text-xs font-medium text-zinc-500">
-            KyaDekhe? • Jo mood, woh movie.
-          </p>
+            <Link
+              href="/about"
+              onClick={onClose}
+              className="group flex items-center justify-between border-b border-[#111c2e] py-5 text-white"
+            >
+              <span className="flex items-center gap-4">
+                <Info className="h-5 w-5 text-orange-400" />
+                <span className="text-xl font-black tracking-tight">
+                  About KyaDekhe?
+                </span>
+              </span>
+
+              <span className="text-sm text-zinc-600 transition group-hover:text-orange-400">
+                →
+              </span>
+            </Link>
+          </nav>
         </div>
       </div>
     </div>,

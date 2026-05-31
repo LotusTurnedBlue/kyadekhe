@@ -14,7 +14,7 @@ export default function SimilarContent({
   content,
 }: SimilarContentProps) {
   return (
-    <section className="mx-auto max-w-[1200px] px-5 pb-12 pt-4 md:px-10">
+    <section className="mx-auto max-w-[1200px] px-5 pb-6 pt-4">
       <SectionHeader
         icon={Sparkles}
         title="You May Like"

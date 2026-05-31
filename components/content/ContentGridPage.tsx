@@ -30,16 +30,23 @@ export default function ContentGridPage({
     useState<ContentFilterType>("all");
 
   const filteredContent = useMemo(() => {
-    if (!enableTypeFilter) {
-      return content;
-    }
+    if (!enableTypeFilter) return content;
 
     return type === "all"
       ? content
-      : content.filter(
-          (item) => item.type === type
-        );
+      : content.filter((item) => item.type === type);
   }, [content, type, enableTypeFilter]);
+
+  const uniqueContent = useMemo(() => {
+    return Array.from(
+      new Map(
+        filteredContent.map((item) => [
+          `${item.type}-${item.tmdbId ?? item.slug}`,
+          item,
+        ])
+      ).values()
+    );
+  }, [filteredContent]);
 
   return (
     <div className="relative z-10 mx-auto max-w-[1540px] px-5 pb-28 pt-6 md:px-10 md:pb-10">
@@ -60,16 +67,16 @@ export default function ContentGridPage({
 
       {children}
 
-      {filteredContent.length === 0 ? (
+      {uniqueContent.length === 0 ? (
         <EmptyState
           title="Nothing found"
           description="Try changing the filter or checking another section."
         />
       ) : (
         <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-6">
-          {filteredContent.map((item) => (
+          {uniqueContent.map((item) => (
             <ContentPosterCard
-              key={item.slug}
+              key={`${item.type}-${item.tmdbId ?? item.slug}`}
               item={item}
             />
           ))}

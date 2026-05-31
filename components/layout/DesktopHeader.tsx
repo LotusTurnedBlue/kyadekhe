@@ -41,8 +41,7 @@ function sortPlatforms() {
 
 export default function DesktopHeader() {
   const pathname = usePathname();
-  const [openPlatforms, setOpenPlatforms] =
-    useState(false);
+  const [openPlatforms, setOpenPlatforms] = useState(false);
 
   const { primary: primaryPlatforms, rest: morePlatforms } =
     sortPlatforms();
@@ -93,41 +92,53 @@ export default function DesktopHeader() {
             );
           })}
 
-          {morePlatforms.length > 0 && (
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() =>
-                  setOpenPlatforms((value) => !value)
-                }
-                className="flex items-center gap-1 text-white transition hover:text-orange-400"
-              >
-                and more
-                <ChevronDown
-                  className={`h-4 w-4 transition ${
-                    openPlatforms
-                      ? "rotate-180 text-orange-400"
-                      : ""
-                  }`}
-                />
-              </button>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() =>
+                setOpenPlatforms((value) => !value)
+              }
+              className="flex items-center gap-1 text-white transition hover:text-orange-400"
+            >
+              and more
+              <ChevronDown
+                className={`h-4 w-4 transition ${
+                  openPlatforms
+                    ? "rotate-180 text-orange-400"
+                    : ""
+                }`}
+              />
+            </button>
 
-              {openPlatforms && (
-                <div className="absolute left-0 top-full z-[999] mt-4 w-56 rounded-2xl border border-[#162338] bg-[#07101d] p-2 shadow-2xl">
-                  {morePlatforms.map((platform) => (
-                    <Link
-                      key={platform.slug}
-                      href={`/ott-platforms/${platform.slug}`}
-                      onClick={() => setOpenPlatforms(false)}
-                      className="block rounded-xl px-3 py-2 text-sm font-semibold text-zinc-300 transition hover:bg-[#0d1728] hover:text-white"
-                    >
-                      {platform.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+            {openPlatforms && (
+              <div className="absolute left-0 top-full z-[999] mt-4 w-56 rounded-2xl border border-[#162338] bg-[#07101d] p-2 shadow-2xl">
+                {morePlatforms.map((platform) => (
+                  <Link
+                    key={platform.slug}
+                    href={`/ott-platforms/${platform.slug}`}
+                    onClick={() => setOpenPlatforms(false)}
+                    className="block rounded-xl px-3 py-2 text-sm font-semibold text-zinc-300 transition hover:bg-[#0d1728] hover:text-white"
+                  >
+                    {platform.name}
+                  </Link>
+                ))}
+
+                <div className="my-2 h-px bg-white/10" />
+
+                <Link
+                  href="/about"
+                  onClick={() => setOpenPlatforms(false)}
+                  className={`block rounded-xl px-3 py-2 text-sm font-semibold transition hover:bg-[#0d1728] hover:text-white ${
+                    pathname === "/about"
+                      ? "text-orange-400"
+                      : "text-zinc-300"
+                  }`}
+                >
+                  About KyaDekhe?
+                </Link>
+              </div>
+            )}
+          </div>
         </nav>
 
         <div className="flex items-center gap-6">

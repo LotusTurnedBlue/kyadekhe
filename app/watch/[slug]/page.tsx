@@ -12,21 +12,31 @@ type PageProps = {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{
+    type?: string;
+  }>;
 };
 
-function getTypeFromSlug(slug: string) {
-  if (slug.startsWith("tv-show-")) return "tv-show";
-  if (slug.startsWith("web-series-")) return "web-series";
-  return "movie";
+function isValidType(
+  type?: string
+): type is "movie" | "tv-show" | "web-series" {
+  return (
+    type === "movie" ||
+    type === "tv-show" ||
+    type === "web-series"
+  );
 }
 
-export default async function WatchPage({ params }: PageProps) {
+export default async function WatchPage({
+  params,
+  searchParams,
+}: PageProps) {
   const { slug } = await params;
+  const { type } = await searchParams;
 
   const tmdbId = getTmdbIdFromSlug(slug);
-  const type = getTypeFromSlug(slug);
 
-  if (!tmdbId) {
+  if (!tmdbId || !isValidType(type)) {
     notFound();
   }
 

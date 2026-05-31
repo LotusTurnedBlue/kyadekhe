@@ -166,7 +166,7 @@ export default function MobileMenu({
               <span className="flex items-center gap-4">
                 <Info className="h-5 w-5 text-orange-400" />
                 <span className="text-xl font-black tracking-tight">
-                  About KyaDekhe?
+                  About to be named
                 </span>
               </span>
 

@@ -24,7 +24,7 @@ export default function AboutPage() {
         <section className="mt-10 grid gap-6 md:grid-cols-2">
           <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
             <h2 className="text-2xl font-black text-white">
-              Why KyaDekhe Exists
+              Why to be named Exists
             </h2>
 
             <p className="mt-4 leading-8 text-zinc-400">
@@ -82,7 +82,7 @@ export default function AboutPage() {
 
         <section className="mt-10 rounded-3xl border border-orange-500/15 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-6 md:p-8">
           <h2 className="text-3xl font-black text-white">
-            What Makes KyaDekhe Different
+            What Makes to be named Different
           </h2>
 
           <p className="mt-4 leading-8 text-zinc-300">

@@ -134,7 +134,7 @@ export default function DesktopHeader() {
                       : "text-zinc-300"
                   }`}
                 >
-                  About KyaDekhe?
+                  About to be named
                 </Link>
               </div>
             )}

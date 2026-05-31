@@ -30,7 +30,7 @@ const moreItems = [
   ["Top Picks", "/top-picks", Sparkles],
   ["Latest Releases", "/latest-releases", CalendarDays],
   ["New on OTT", "/new-on-ott", Clapperboard],
-  ["About to be named", "/about", Info],
+  ["About KyaDekhe?", "/about", Info],
 ] as const;
 
 export default function BottomNav() {

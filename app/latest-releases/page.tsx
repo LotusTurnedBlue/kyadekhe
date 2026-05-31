@@ -24,7 +24,7 @@ export default async function LatestReleasesPage() {
     <AppShell>
       <ContentGridPage
         title="Latest Releases"
-        subtitle="Recently added titles on to be named."
+        subtitle="Recently added titles on KyaDekhe?"
         content={content}
         enableTypeFilter
       />

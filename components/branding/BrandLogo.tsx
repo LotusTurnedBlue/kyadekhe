@@ -9,12 +9,12 @@ export default function BrandLogo() {
       aria-label="Go to homepage"
     >
       <Image
-        src="/tobenamed.png"
+        src="/kyadekhe-logo.png"
         alt="KyaDekhe?"
-        width={1440}
-        height={460}
+        width={1414}
+        height={370}
         priority
-        className="h-[46px] md:h-[57.5px] w-[144px] md:w-[180px]"
+        className="h-[37px] md:h-[46.25px] w-[141.4px] md:w-[176.75px]"
       />
     </Link>
   );

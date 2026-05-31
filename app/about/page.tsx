@@ -6,7 +6,7 @@ export default function AboutPage() {
       <div className="relative mx-auto max-w-[1100px] px-5 pb-5 pt-8 md:px-10 md:pb-10">
         <section className="rounded-[32px] border border-white/10 bg-[#07101d] p-6 md:p-10">
           <p className="text-xs font-black uppercase tracking-[0.3em] text-orange-400">
-            About to be named
+            About KyaDekhe?
           </p>
 
           <h1 className="mt-4 text-4xl font-black leading-tight md:text-6xl">
@@ -14,7 +14,8 @@ export default function AboutPage() {
           </h1>
 
           <p className="mt-5 max-w-3xl text-lg leading-8 text-zinc-300">
-            to be named is built for people who love movies and shows
+            KyaDekhe?
+             is built for people who love movies and shows
             but hate endless scrolling. We help you discover content
             across platforms through mood, genre and curated discovery —
             making entertainment feel fun again.
@@ -24,7 +25,8 @@ export default function AboutPage() {
         <section className="mt-10 grid gap-6 md:grid-cols-2">
           <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
             <h2 className="text-2xl font-black text-white">
-              Why to be named Exists
+              Why KyaDekhe?
+               Exists
             </h2>
 
             <p className="mt-4 leading-8 text-zinc-400">
@@ -34,7 +36,8 @@ export default function AboutPage() {
             </p>
 
             <p className="mt-4 leading-8 text-zinc-400">
-              to be named exists to make discovering movies, TV shows and
+              KyaDekhe?
+               exists to make discovering movies, TV shows and
               web series easier, smarter and more enjoyable.
             </p>
           </div>
@@ -82,12 +85,14 @@ export default function AboutPage() {
 
         <section className="mt-10 rounded-3xl border border-orange-500/15 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-6 md:p-8">
           <h2 className="text-3xl font-black text-white">
-            What Makes to be named Different
+            What Makes KyaDekhe?
+             Different
           </h2>
 
           <p className="mt-4 leading-8 text-zinc-300">
             Instead of endless scrolling and confusing recommendations,
-            to be named focuses on discovery that feels natural.
+            KyaDekhe?
+             focuses on discovery that feels natural.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
@@ -115,7 +120,8 @@ export default function AboutPage() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-zinc-400">
-            That is the idea behind to be named —
+            That is the idea behind KyaDekhe?
+             —
             not just content, but the right content.
           </p>
         </section>

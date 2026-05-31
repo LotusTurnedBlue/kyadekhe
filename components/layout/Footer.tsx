@@ -76,7 +76,7 @@ export default function Footer() {
               <h2 className="mt-5 max-w-xl text-2xl font-black leading-tight text-white md:text-4xl">
                 Confused what to watch?
                 <span className="block bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                  KyaDekhe? helps.
+                  to be named helps.
                 </span>
               </h2>
 
@@ -166,7 +166,7 @@ export default function Footer() {
             </div>
 
             <div className="mt-6 flex flex-col items-center gap-3 border-t border-white/10 pt-5 text-xs text-zinc-500 md:flex-row md:items-center md:justify-between">
-              <p>© {new Date().getFullYear()} KyaDekhe?. All rights reserved.</p>
+              <p>© {new Date().getFullYear()} to be named. All rights reserved.</p>
             </div>
           </div>
         </div>

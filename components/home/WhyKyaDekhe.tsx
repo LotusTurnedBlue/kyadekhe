@@ -17,7 +17,7 @@ const features = [
 export default function WhyKyaDekhe() {
   return (
     <section className="hidden pt-8 md:block">
-      <h2 className="mb-5 text-2xl font-black">Why KyaDekhe?</h2>
+      <h2 className="mb-5 text-2xl font-black">Why to be named.</h2>
 
       <div className="grid grid-cols-4 gap-5">
         {features.map(([Icon, title, desc]) => (

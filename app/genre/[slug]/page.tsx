@@ -30,7 +30,7 @@ export default async function GenreDetailPage({
     <AppShell>
       <ContentGridPage
         title={genre.name}
-        subtitle={`Explore ${genre.name} titles on KyaDekhe?`}
+        subtitle={`Explore ${genre.name} titles on to be named.`}
         content={content}
         enableTypeFilter
       />

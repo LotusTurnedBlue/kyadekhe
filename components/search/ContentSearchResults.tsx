@@ -26,9 +26,9 @@ export default function ContentSearchResults({
 
   return (
     <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-6">
-      {content.map((item) => (
+      {content.map((item, index) => (
         <ContentPosterCard
-          key={`${item.slug}-${item.tmdbId ?? item.title}`}
+          key={`${item.type}-${item.tmdbId ?? item.slug}-${index}`}
           item={item}
         />
       ))}

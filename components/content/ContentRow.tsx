@@ -13,6 +13,8 @@ type ContentRowProps = {
   compact?: boolean;
   accent?: string;
   href?: string;
+  cardHref?: (item: Content) => string;
+  cardProgress?: (item: Content) => number | undefined;
 };
 
 export default function ContentRow({
@@ -24,6 +26,8 @@ export default function ContentRow({
   compact = false,
   accent,
   href,
+  cardHref,
+  cardProgress,
 }: ContentRowProps) {
   return (
     <section className="pt-6 md:pt-7">
@@ -42,6 +46,8 @@ export default function ContentRow({
             key={`${title}-${item.slug}`}
             item={item}
             compact={compact}
+            hrefOverride={cardHref?.(item)}
+            progress={cardProgress?.(item)}
           />
         ))}
       </div>

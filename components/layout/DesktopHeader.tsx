@@ -14,6 +14,7 @@ import {
 import BrandLogo from "@/components/branding/BrandLogo";
 import SearchPill from "@/components/ui/SearchPill";
 import { ottPlatforms } from "@/lib/ott-platforms";
+import UserMenu from "@/components/layout/UserMenu";
 
 const navItems = [
   ["Movies", "/movies", Clapperboard],
@@ -144,9 +145,7 @@ export default function DesktopHeader() {
         <div className="flex items-center gap-6">
           <SearchPill />
 
-          <button className="rounded-full bg-gradient-to-br from-orange-400 to-pink-600 p-3">
-            <User className="h-6 w-6" />
-          </button>
+          <UserMenu />
         </div>
       </div>
     </header>

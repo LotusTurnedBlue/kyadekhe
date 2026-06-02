@@ -9,14 +9,22 @@ import type { Content } from "@/types/content";
 type ContentPosterCardProps = {
   item: Content;
   compact?: boolean;
+  hrefOverride?: string;
+  progress?: number;
 };
 
 export default function ContentPosterCard({
   item,
   compact = false,
+  hrefOverride,
+  progress,
 }: ContentPosterCardProps) {
+  const href = hrefOverride ?? `/${item.type}/${item.slug}`;
+  const safeProgress =
+    typeof progress === "number" ? Math.max(0, Math.min(progress, 100)) : 0;
+
   return (
-    <Link href={`/${item.type}/${item.slug}`} className="block">
+    <Link href={href} className="block">
       <motion.div
         whileHover={{ y: -6, scale: 1.015 }}
         transition={{
@@ -61,6 +69,15 @@ export default function ContentPosterCard({
               {item.platform}
             </p>
           </div>
+
+          {safeProgress > 0 && safeProgress < 100 && (
+            <div className="absolute bottom-0 left-0 h-1.5 w-full bg-white/20">
+              <div
+                className="h-full bg-gradient-to-r from-orange-500 to-pink-500"
+                style={{ width: `${safeProgress}%` }}
+              />
+            </div>
+          )}
         </div>
       </motion.div>
     </Link>

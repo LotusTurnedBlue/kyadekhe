@@ -5,6 +5,7 @@ import { Menu, User } from "lucide-react";
 
 import BrandLogo from "@/components/branding/BrandLogo";
 import MobileMenu from "@/components/layout/MobileMenu";
+import UserMenu from "@/components/layout/UserMenu";
 
 export default function MobileHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,9 +33,7 @@ export default function MobileHeader() {
             <BrandLogo />
           </div>
 
-          <button className="rounded-full bg-gradient-to-br from-orange-400 to-pink-600 p-3">
-            <User className="h-3 w-3 text-white" />
-          </button>
+          <UserMenu />
         </div>
       </header>
 

@@ -9,6 +9,7 @@ import TopPicksSection from "@/components/home/TopPicksSection";
 import ContentRow from "@/components/content/ContentRow";
 import WhyKyaDekhe from "@/components/home/WhyKyaDekhe";
 import SurpriseBanner from "@/components/home/SurpriseBanner";
+import ContinueWatchingSection from "@/components/home/ContinueWatchingSection";
 
 import { topPickTmdbIds } from "@/data/homeCuration";
 import { moodCuration } from "@/data/homeCuration";
@@ -72,6 +73,15 @@ export default async function KyaDekheHomepage() {
             />
           </section>
         )}
+
+        <ContinueWatchingSection
+          content={[
+            ...tmdbTopPicks,
+            ...indianMovies,
+            ...indianWebSeries,
+            ...curatedMoodRows.flatMap((row) => row.content),
+          ]}
+        />
 
         {indianWebSeries.length > 0 && (
           <section id="indian-web-series">

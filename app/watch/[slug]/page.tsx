@@ -7,6 +7,7 @@ import {
   tmdbTvToContent,
 } from "@/lib/contentAdapter";
 import { getVidkingEmbedUrl } from "@/lib/content";
+import SaveContinueWatching from "@/components/watch/SaveContinueWatching";
 
 type PageProps = {
   params: Promise<{
@@ -107,6 +108,7 @@ export default async function WatchPage({
           className="h-full w-full border-0"
         />
       </div>
+      <SaveContinueWatching slug={content.slug} type={content.type} />  
     </main>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import RegisterServiceWorker from "@/components/pwa/RegisterServiceWorker";
 import { Geist, Geist_Mono } from "next/font/google";
+import HideSplashScreen from "@/components/native/HideSplashScreen";
 
 import "./globals.css";
 
@@ -39,7 +40,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-black text-white">
+        <InspectBlocker />
         <RegisterServiceWorker />
+        <HideSplashScreen />
         {children}
       </body>
     </html>

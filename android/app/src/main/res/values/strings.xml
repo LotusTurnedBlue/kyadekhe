@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">KyaDekhe</string>
+    <string name="title_activity_main">KyaDekhe</string>
+    <string name="package_name">com.kyadekhe.app</string>
+    <string name="custom_url_scheme">com.kyadekhe.app</string>
+</resources>
